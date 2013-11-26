@@ -86,15 +86,8 @@ class Schedule
   end
   
   def valid_interval? group, index
-    return true if [group[index], group[(index+1)%Intervals.size]].include?(nil)
-
-    desired_interval = Intervals[index]
-    actual_interval = (group[(index+1)%Intervals.size] - group[index]) % Days
-    if desired_interval.is_a? Fixnum
-      desired_interval == actual_interval
-    elsif desired_interval.is_a? Range
-      desired_interval.include? actual_interval
-    end
+    [group[index], group[(index+1) % Intervals.size]].include?(nil) ||
+    (Intervals[index] === ((group[(index+1)%Intervals.size] - group[index]) % Days))
   end
     
   def valid_days?
